@@ -1,0 +1,109 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\author{Paul CLAVIER}
+\title{[Info 528]Mathématiques pour l'informatique}
+\begin{document}
+%head
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+%body
+\section{Complexité}
+	\subsection{Pourquoi, Comment?}
+		\begin{description}
+			\item[But]: prévoir le temps d’exécution d'un programme en fonction des paramètres. On utilise des approximations pour:
+			\begin{itemize}
+				\item ne pas prendre en compte la vitesse du processeur.
+				\item on ne sait pas calculer exactement le nombre d'opérations.
+			\end{itemize}
+			\item[] Les approximations ont du style: "La complexité est proportionnelle à ..."
+		\end{description}
+	\subsection{Notation "O"}
+		\begin{description}
+			\item[Définition]: on dit que "f est un grand O de g"
+			\item[Notation]: $f = O(g) \Leftrightarrow \lim\limits_{n\to\infty}\frac{f(n)}{g(n)} = C$
+			\item[Propriétés]:
+				\begin{itemize}
+					\item si $f = O(g)$ et $f' = O(g)$ alors $f+f' = O(g)$
+					\item si $f = O(g)$ et $\alpha\in\mathbb{R}^+$ alors $\alpha\cdot f = O(g)$
+					\item si $f = O(g)$ et $g = O(h)$ alors $f = O(h)$
+					\item si $\alpha\leq\beta$ alors $x^\alpha = O(x^\beta)$
+				\end{itemize}
+		\end{description}
+	\subsection{Diviser pour régner}
+		\begin{description}
+			\item[L'idée]: pour résoudre un problème "gros":
+				\begin{enumerate}
+					\item on découpe le problème en sous problèmes
+					\item on résout chaque sous problème (de la même manière)
+					\item on récolte les solutions
+				\end{enumerate}
+			\item[Complexité]: la complexité est donnée par une formule de récurrence
+				Si on divise un problème de taille $n$ en sous-problèmes de taille $\frac{n}{b}$, $\displaystyle C(n) = a\times C\left(\frac{n}{b}\right) + f(n)$ où $f(n)$ est la complexité pour recoller les morceaux.
+		\end{description}
+	\subsection{Résolutions des récurrences}
+		\subsubsection{Première méthode}
+			\begin{itemize}
+				\item On commence par deviner le résultat
+				\item On prouve le résultat par récurrence
+			\end{itemize}
+		\subsubsection{Théorème fondamental}
+			Si on a une complexité\begin{align*}
+			 C(1) &= k\\
+			 C(n) &= a\times C\left(\frac{n}{b}\right) + f(n), a,b\in\mathbb{N}
+			\end{align*}
+			La complexité est
+			\begin{itemize}
+				\item si $\displaystyle f(n) = O\left(n^{\log_b(a)-\epsilon}\right)$, alors \[C(n) = \Theta\left(n^{log_b(a)}\right)\]
+				\item si $\displaystyle f(n) = \Omega\left(n^{\log_b(a)+\epsilon}\right)$, alors \[C(n) = \Theta(f(n))\]
+				\item si $\displaystyle f(n) = \Theta\left(n^{\log_b(a)}\right)$, alors \[C(n) = \left(\log(n)\times n^{\log_b(a)}\right)\]
+			\end{itemize}
+\section{Codes correcteurs d'erreurs, application aux QR codes}
+	\subsection{Introduction}
+		\begin{description}
+			\item[Situation générale]: on transmet un signal (suite de bits) sur un canal de communication non parfait. Le signal reçu est (légèrement) différent du signal envoyé.
+			\item[But]: ajouter de la redondance d'information pour repérer et corriger ces erreurs. On veut faire ceci de manière contrôlée.
+			\item[Objectif]: rajouter le moins de redondance possible en détectant le plus d'erreurs possible.
+		\end{description}
+	\subsection{Définition}
+		Un code de taille $n$ est un ensemble de mots de $n$ bits.
+		La distance d'un code est le nombre de bits minimal qui permet de passer d'un mot du code à un autre mot du code.
+	\subsection{Les codes linéaires}
+		Un code est linéaire si le xor de mots corrects est correct.
+\section{Code de Hamming}
+	Les codes linéaires sont générés par des matrices.
+	\[\text{Code de Hamming:}  M = \left[\begin{matrix}
+	1&0&0&0&\vdots&0&1&1\\
+	0&1&0&0&\vdots&1&0&1\\
+	0&0&1&0&\vdots&1&1&0\\
+	0&0&0&1&\vdots&1&1&1
+	\end{matrix}\right]\]\\
+	Les mots du code s'obtiennent en additionnant les lignes de M (matrice génératrice). Les matricesgénératrices permettent de coder des mots arbitraires.\\
+	Pour vérifier si un mot et correct, on utilise une matrice de parité
+	\[\text{parité de Hamming:}H=\left[\begin{matrix}
+	0&1&1&1&\vdots&1&0&0\\
+	1&0&1&1&\vdots&0&1&0\\
+	1&1&0&1&\vdots&0&0&1
+	\end{matrix}\right]\]
+	\begin{description}
+		\item[Théorème]: Le résultat de $\displaystyle H\times\left(\begin{matrix}b_1\\ \vdots\\b_n\end{matrix}\right)$ est $\displaystyle\left(\begin{matrix}0\\ \vdots\\ 0\end{matrix}\right)$ si le mot est correct.
+		\item[Pour décoder]: Si le mot est correct, le mot initial est la concaténation des 4 premiers bits. sinon, il existe toujours une matrice de décodage qui permet de décoder
+	\end{description}
+\section{Code de Reed-Solomon}
+	Famille de codes linéaires.
+	\paragraph{idée}: les octets qu'on code sont des coefficients de polynômes.
+
+
+
+
+
+
+
+
+\end{document}
