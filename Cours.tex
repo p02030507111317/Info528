@@ -97,8 +97,11 @@
 	\end{description}
 \section{Code de Reed-Solomon}
 	Famille de codes linéaires.
-	\paragraph{idée}: les octets qu'on code sont des coefficients de polynômes.
-
+	\paragraph{idée}: les octets qu'on code sont des coefficients de polynômes. Pour ajouter des octets de redondance, on multiplie le polynôme par un polynôme générateur. Ce polynôme G est fixé.
+	\paragraph{ex}: si on veut ajouter 10 octets de redondance, on multiplie P par $G = (X-2^0)(X-2^1)\ldots (X-2^9)$. Le résultat est un polynôme de degré 25, les coefficients sont les octets du message codé. Pour récupérer le message codé, on divise le message codé par G.
+	\paragraph{} Pour détécter les erreurs, on évalue le polynôme en $2^0, 2^1, \ldots, 2^9$, et on doit trouver $0,0,\ldots,0$. Les resultats de l'évaluation forment le syndrome.
+	\paragraph{Rq}: La correction est plus complexe (Algo de Massey Berlekamp).
+	
 
 
 
